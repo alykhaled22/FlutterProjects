@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "635523414693",
+    "project_id": "store-app-c736c",
+    "storage_bucket": "store-app-c736c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635523414693:android:370e0bfe2b80689babab4c",
+        "android_client_info": {
+          "package_name": "com.example.storeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJc4EG1mQwh6ofRKolAyyj-m8yVNnmdr0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
