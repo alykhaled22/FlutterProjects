@@ -5,6 +5,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:scholarchat/constant.dart';
 import 'package:scholarchat/helper/show_snack_bar.dart';
 import 'package:scholarchat/pages/chat_page.dart';
+import 'package:scholarchat/pages/cubits/chat_cubit/chat_cubit.dart';
 import 'package:scholarchat/pages/cubits/login_cubit/login_cubit.dart';
 import 'package:scholarchat/pages/register_page.dart';
 import 'package:scholarchat/widgets/custom_button.dart';
@@ -23,6 +24,7 @@ class LoginPage extends StatelessWidget {
       listener: (context, state) {
         if (state is LoginSuccess) {
           BlocProvider.of<LoginCubit>(context).isLoding = false;
+          BlocProvider.of<ChatCubit>(context).getMessages();
           Navigator.pushReplacementNamed(context, ChatPage.id);
         } else if (state is LoginLoding) {
           BlocProvider.of<LoginCubit>(context).isLoding = true;
