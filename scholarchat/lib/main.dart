@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:scholarchat/firebase_options.dart';
 import 'package:scholarchat/pages/chat_page.dart';
 import 'package:scholarchat/pages/cubits/login_cubit/login_cubit.dart';
+import 'package:scholarchat/pages/cubits/register_cubit/register_cubit.dart';
 import 'package:scholarchat/pages/home_page.dart';
 import 'package:scholarchat/pages/login_page.dart';
 import 'package:scholarchat/pages/register_page.dart';
@@ -23,15 +24,18 @@ class ScholarChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LoginCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => LoginCubit()),
+        BlocProvider(create: (context) => RegisterCubit()),
+      ],
       child: GetMaterialApp(
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
         themeMode: Get.isDarkMode ? ThemeMode.dark : ThemeMode.light,
         routes: {
-          RegisterPage.id: (context) => const RegisterPage(),
-          LoginPage.id: (context) =>  LoginPage(),
+          RegisterPage.id: (context) => RegisterPage(),
+          LoginPage.id: (context) => LoginPage(),
           ChatPage.id: (context) => const ChatPage(),
           AuthGate.id: (context) => const AuthGate(),
           HomePage.id: (context) => const HomePage()
@@ -58,7 +62,7 @@ class AuthGate extends StatelessWidget {
         } else if (snapshot.hasData && snapshot.data == true) {
           return const ChatPage();
         } else {
-          return  LoginPage();
+          return LoginPage();
         }
       },
     );

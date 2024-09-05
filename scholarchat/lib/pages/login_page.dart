@@ -12,13 +12,8 @@ import 'package:scholarchat/widgets/email_textfield.dart';
 import 'package:scholarchat/widgets/password_textfield.dart';
 
 class LoginPage extends StatelessWidget {
-  String? email;
-  String? password;
   static String id = "LoginPage";
-
-  GlobalKey<FormState> globalKey = GlobalKey();
-
-  bool isLoading = false;
+  final GlobalKey<FormState> globalKey = GlobalKey();
 
   LoginPage({super.key});
 
@@ -27,17 +22,17 @@ class LoginPage extends StatelessWidget {
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
-          isLoading = false;
+          BlocProvider.of<LoginCubit>(context).isLoding = false;
           Navigator.pushReplacementNamed(context, ChatPage.id);
         } else if (state is LoginLoding) {
-          isLoading = true;
+          BlocProvider.of<LoginCubit>(context).isLoding = true;
         } else if (state is LoginFailure) {
-          isLoading = false;
+          BlocProvider.of<LoginCubit>(context).isLoding = false;
           showSncakBar(context, state.errMessage);
         }
       },
-      builder:(context,state) => ModalProgressHUD(
-        inAsyncCall: isLoading,
+      builder: (context, state) => ModalProgressHUD(
+        inAsyncCall: BlocProvider.of<LoginCubit>(context).isLoding,
         child: Scaffold(
           backgroundColor: kPrimaryColor,
           body: Padding(
@@ -86,7 +81,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   EmailTextfield(
                     onChanged: (data) {
-                      email = data;
+                      BlocProvider.of<LoginCubit>(context).email = data;
                     },
                   ),
                   const SizedBox(
@@ -94,7 +89,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   PasswordTextfield(
                     onChanged: (data) {
-                      password = data;
+                      BlocProvider.of<LoginCubit>(context).password = data;
                     },
                   ),
                   const SizedBox(
@@ -116,8 +111,7 @@ class LoginPage extends StatelessWidget {
                       } else {
                         if (globalKey.currentState!.validate()) {
                           if (context.mounted) {
-                            BlocProvider.of<LoginCubit>(context)
-                                .loginUser(email: email!, password: password!);
+                            BlocProvider.of<LoginCubit>(context).loginUser();
                           }
                         }
                       }
