@@ -100,8 +100,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         await (Connectivity().checkConnectivity());
 
                     if (connectivityResult.contains(ConnectivityResult.none)) {
-                      showSncakBar(
-                          context, "No internet connection. Please try again.");
+                      if (context.mounted) {
+                        showSncakBar(context,
+                            "No internet connection. Please try again.");
+                      }
                       return;
                     } else {
                       if (globalKey.currentState!.validate()) {
@@ -109,17 +111,28 @@ class _RegisterPageState extends State<RegisterPage> {
                         setState(() {});
                         try {
                           await registerUser();
-                          showSncakBar(context, 'Registered Succsefully.');
-                          Navigator.pop(context);
+                          if (context.mounted) {
+                            showSncakBar(context, 'Registered Succsefully.');
+                          }
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                          }
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'email-already-in-use') {
-                            showSncakBar(context, 'This Email already exists.');
+                            if (context.mounted) {
+                              showSncakBar(
+                                  context, 'This Email already exists.');
+                            }
                           } else if (e.code == 'invalid-email') {
-                            showSncakBar(context, 'Invalid Email.');
+                            if (context.mounted) {
+                              showSncakBar(context, 'Invalid Email.');
+                            }
                           }
                         } catch (e) {
-                          showSncakBar(
-                              context, "There was an error, Please try again");
+                          if (context.mounted) {
+                            showSncakBar(context,
+                                "There was an error, Please try again");
+                          }
                         }
                         isLoading = false;
                         setState(() {});

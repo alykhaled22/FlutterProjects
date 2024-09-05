@@ -77,7 +77,7 @@ class _ChatPageState extends State<ChatPage> {
                             await SharedPreferences.getInstance();
                         await prefs.remove('isLoggedIn');
                         await Future.delayed(const Duration(seconds: 1));
-                        Navigator.pushReplacementNamed(context, LoginPage.id);
+                        if (context.mounted) Navigator.pushReplacementNamed(context, LoginPage.id);
                       },
                       icon: const Icon(Icons.logout),
                     ),

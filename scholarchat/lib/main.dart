@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:scholarchat/firebase_options.dart';
 import 'package:scholarchat/pages/chat_page.dart';
+import 'package:scholarchat/pages/cubits/login_cubit/login_cubit.dart';
 import 'package:scholarchat/pages/home_page.dart';
 import 'package:scholarchat/pages/login_page.dart';
 import 'package:scholarchat/pages/register_page.dart';
@@ -21,19 +23,22 @@ class ScholarChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: Get.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      routes: {
-        RegisterPage.id: (context) => const RegisterPage(),
-        LoginPage.id: (context) => const LoginPage(),
-        ChatPage.id: (context) => const ChatPage(),
-        AuthGate.id: (context) => const AuthGate(),
-        HomePage.id: (context) => const HomePage()
-      },
-      debugShowCheckedModeBanner: false,
-      initialRoute: AuthGate.id,
+    return BlocProvider(
+      create: (context) => LoginCubit(),
+      child: GetMaterialApp(
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: Get.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+        routes: {
+          RegisterPage.id: (context) => const RegisterPage(),
+          LoginPage.id: (context) =>  LoginPage(),
+          ChatPage.id: (context) => const ChatPage(),
+          AuthGate.id: (context) => const AuthGate(),
+          HomePage.id: (context) => const HomePage()
+        },
+        debugShowCheckedModeBanner: false,
+        initialRoute: AuthGate.id,
+      ),
     );
   }
 }
@@ -53,7 +58,7 @@ class AuthGate extends StatelessWidget {
         } else if (snapshot.hasData && snapshot.data == true) {
           return const ChatPage();
         } else {
-          return const LoginPage();
+          return  LoginPage();
         }
       },
     );
